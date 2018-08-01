@@ -1,0 +1,12 @@
+& {
+  display: flex;
+}
+
+&__input {
+  flex-grow: 1;
+  @include form-control;
+}
+
+&__input:focus {
+  @include form-control__focus;
+}

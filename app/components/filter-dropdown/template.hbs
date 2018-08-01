@@ -1,0 +1,16 @@
+<select class='{{componentCssClassName}}__select' onchange={{action 'onOptionSelected' value='target.value'}}>
+  {{#each options as |opt|}}
+    <option value={{opt}}>{{opt}}</option>
+  {{/each}}
+
+  {{#each optionGroups as |optionGroup|}}
+    <optgroup label={{optionGroup.groupLabel}}>
+
+      {{#each optionGroup.options as |opt|}}
+        <option value={{opt}}>
+          {{opt}}
+        </option>
+      {{/each}}
+    </optgroup>
+  {{/each}}
+</select>

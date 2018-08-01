@@ -1,0 +1,14 @@
+&{
+  display: flex;
+}
+
+&__select {
+  @include form-control;
+  background-color: white;
+  height: 32px;
+  flex-grow: 1;
+}
+
+&__select:focus {
+  @include form-control__focus;
+}
