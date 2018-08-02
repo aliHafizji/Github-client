@@ -25,6 +25,8 @@
       <h3 class='search-filter-section-header'>Search by Topic</h3>
       {{filter-text-input data-test-filter-topic class='filter' value=topic placeholder='Topic' onTextChange=(mut topic)}}
     </div>
+
+    <button class='search-button' onclick={{action 'searchSelected'}}>Search</button>
   </div>
 
   {{outlet}}

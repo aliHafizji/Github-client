@@ -50,5 +50,24 @@ export default Controller.extend({
         'Isabelle', 'Isabelle ROOT', 'J', 'Jasmin']
     });
     this.set('languageOptionGroups', [popularLanguageOptionGroup, otherLanguageOptionGroup]);
+  },
+  actions: {
+    searchSelected() {
+      let {
+        repositoryName,
+        repositoryDescription,
+        repositoryReadme,
+        user,
+        organization,
+        size,
+        forks,
+        stars,
+        language,
+        topic
+      } = this.getProperties('repositoryName', 'repositoryDescription', 'respositoryReadme', 'user', 'organization',
+        'size', 'forks', 'stars', 'language', 'topic');
+      this.transitionToRoute('search.results', { queryParams: { repositoryName, repositoryDescription, repositoryReadme,
+        user, organization, size, forks, stars, language, topic } });
+    }
   }
 });
