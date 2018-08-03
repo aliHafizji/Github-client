@@ -3,6 +3,7 @@ import { visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import Pretender from 'pretender';
 import emptyResults from '../../mocks/empty-results';
+import { select } from '../../helpers/select';
 
 module('Acceptance | search/results', function(hooks) {
   let server;
@@ -28,5 +29,23 @@ module('Acceptance | search/results', function(hooks) {
       });
     });
     await visit('/search/results?forks=50&inDesc=true&inName=true&inReadme=true&organization=Apple&searchTerm=My%20new%20post&size=1000&stars=100&topic=Topic&user=CJ');
+  });
+
+  test('it should send the correct parameters when the sort option is changed', async function(assert) {
+    assert.expect(2);
+    let index = 0;
+    server = new Pretender(function() {
+      this.get('https://api.github.com/search/repositories', (request) => {
+        if (index === 0) {
+          assert.equal(request.queryParams.order, 'desc');
+        } else {
+          assert.equal(request.queryParams.order, 'asc');
+        }
+        index += 1;
+        return [200, null, JSON.stringify(emptyResults)];
+      });
+    });
+    await visit('/search/results?searchTerm=My%20new%20post');
+    select('[data-test-results-sort-options]', 'Least Stars');
   });
 });

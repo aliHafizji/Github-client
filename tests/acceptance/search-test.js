@@ -1,11 +1,26 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { visit, fillIn, click, currentURL } from '@ember/test-helpers';
+import Pretender from 'pretender';
+import emptyResults from '../mocks/empty-results';
 
 module('Acceptance | search', function(hooks) {
+  let server;
+  hooks.afterEach(function() {
+    if (server) {
+      server.shutdown();
+    }
+  });
+
   setupApplicationTest(hooks);
 
   test('it should show all the filters correctly', async function(assert) {
+    server = new Pretender(function() {
+      this.get('https://api.github.com/search/repositories', () => {
+        return [200, null, JSON.stringify(emptyResults)];
+      });
+    });
+
     await visit('/search');
     assert.ok(this.element.querySelector('[data-test-filter-search-term]'));
     assert.ok(this.element.querySelector('[data-test-filter-name]'));
@@ -22,6 +37,12 @@ module('Acceptance | search', function(hooks) {
   });
 
   test('it should send the correct query params when the user enters filters', async function(assert) {
+    server = new Pretender(function() {
+      this.get('https://api.github.com/search/repositories', () => {
+        return [200, null, JSON.stringify(emptyResults)];
+      });
+    });
+
     await visit('/search');
     await fillIn('[data-test-filter-search-term] input', 'My new post');
     await click('[data-test-filter-name] input');

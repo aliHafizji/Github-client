@@ -1,5 +1,9 @@
 <div class='results-container'>
-  <h2 class='header'>Search Results {{if (gt model.length 0) model.length ''}}</h2>
+  <div class='header-container'>
+    <h2 class='header'>Search Results {{if (gt model.length 0) model.length ''}}</h2>
+    {{filter-dropdown data-test-results-sort-options options=sortOptions onOptionSelected=(action 'onSortOptionSelected')}}
+  </div>
+
   <div class='divider'></div>
 
   {{#if (gt model.length 0)}}

@@ -5,6 +5,14 @@ import { isPresent } from '@ember/utils';
 export default Route.extend({
   ajax: service('ajax'),
   queryParams: {
+    sort: {
+      refreshModel: true,
+      replace: true
+    },
+    order: {
+      refreshModel: true,
+      replace: true
+    },
     searchTerm: {
       refreshModel: true,
       replace: true
@@ -52,7 +60,7 @@ export default Route.extend({
   },
 
   model(params) {
-    let { searchTerm, inName, inDesc, inReadme, user, organization, size, forks, stars, language, topic } = params;
+    let { sort, order, searchTerm, inName, inDesc, inReadme, user, organization, size, forks, stars, language, topic } = params;
     let searchQualifiers = [];
 
     if (isPresent(searchTerm)) {
@@ -90,9 +98,20 @@ export default Route.extend({
       searchQualifiers.push(`topic:${topic}`);
     }
 
+    let requestParams = {
+      q: searchQualifiers.join('+')
+    };
+
+    if (isPresent(sort)) {
+      requestParams.sort = sort;
+    }
+
+    if (isPresent(order)) {
+      requestParams.order = order;
+    }
     return isPresent(searchQualifiers) ? this.get('ajax').request('/search/repositories', {
       data: {
-        q: searchQualifiers.join('+')
+        ...requestParams
       }
     }).then((response) => {
       return response.items;
