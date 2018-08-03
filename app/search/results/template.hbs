@@ -1,1 +1,30 @@
-{{outlet}}
+<div class='results-container'>
+  <h2 class='header'>Search Results {{if (gt model.length 0) model.length ''}}</h2>
+  <div class='divider'></div>
+
+  {{#if (gt model.length 0)}}
+    <div>
+      {{#each model as |result|}}
+        <div class='name-stars-row'>
+          <p class='name'>
+            <b>{{result.full_name}}</b>
+          </p>
+          <div>
+            <img class='star' src='/ic_star.svg'/>{{result.stargazers_count}}
+          </div>
+        </div>
+        <p class='desc'>
+          {{result.description}}
+        </p>
+        <p>
+          {{result.license.name}}
+        </p>
+        <div class='divider'></div>
+      {{/each}}
+    </div>
+  {{else}}
+    <div class='no-results-container' data-test-results-empty-container>
+      <p class='no-results'>No results!</p>
+    </div>
+  {{/if}}
+</div>

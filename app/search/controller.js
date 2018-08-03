@@ -7,9 +7,10 @@ export default Controller.extend({
   licenseOptions: null,
   licenseOptionsGroups: null,
 
-  repositoryName: null,
-  repositoryDescription: null,
-  repositoryReadme: null,
+  searchTerm: null,
+  inName: null,
+  inDesc: null,
+  inReadme: null,
   user: null,
   organization: null,
   size: null,
@@ -17,6 +18,8 @@ export default Controller.extend({
   stars: null,
   language: null,
   topic: null,
+
+  filterOptionsVisible: true,
 
   init() {
     this._super();
@@ -52,11 +55,15 @@ export default Controller.extend({
     this.set('languageOptionGroups', [popularLanguageOptionGroup, otherLanguageOptionGroup]);
   },
   actions: {
+    onAccordianToggle() {
+      this.toggleProperty('filterOptionsVisible');
+    },
     searchSelected() {
       let {
-        repositoryName,
-        repositoryDescription,
-        repositoryReadme,
+        searchTerm,
+        inName,
+        inDesc,
+        inReadme,
         user,
         organization,
         size,
@@ -64,9 +71,9 @@ export default Controller.extend({
         stars,
         language,
         topic
-      } = this.getProperties('repositoryName', 'repositoryDescription', 'respositoryReadme', 'user', 'organization',
+      } = this.getProperties('searchTerm', 'inName', 'inDesc', 'inReadme', 'user', 'organization',
         'size', 'forks', 'stars', 'language', 'topic');
-      this.transitionToRoute('search.results', { queryParams: { repositoryName, repositoryDescription, repositoryReadme,
+      this.transitionToRoute('search.results', { queryParams: { searchTerm, inName, inDesc, inReadme,
         user, organization, size, forks, stars, language, topic } });
     }
   }

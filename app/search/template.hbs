@@ -1,33 +1,38 @@
 <div class='search-container'>
-  <div class='search-filters-container'>
-    <div class='search-param-group-section-container'>
-      <h3 class='search-filter-section-header'>Repository Content</h3>
-      {{filter-text-input data-test-filter-repository-name class='filter' value=repositoryName placeholder='Name' onTextChange=(mut repositoryName)}}
-      {{filter-text-input data-test-filter-repository-description class='filter' value=repositoryDescription placeholder='Description' onTextChange=(mut repositoryDescription)}}
-      {{filter-text-input data-test-filter-repository-readme class='filter' value=repositoryReadme placeholder='README' onTextChange=(mut repositoryReadme)}}
-    </div>
+  <div>
+    {{#if filterOptionsVisible}}
+      <div class='search-param-group-section-container'>
+        {{filter-text-input data-test-filter-search-term class='filter' value=searchTerm placeholder='Search Term' onTextChanged=(action (mut searchTerm))}}
+      </div>
 
-    <div class='search-param-group-section-container'>
-      <h3 class='search-filter-section-header'>User/Organization details</h3>
-      {{filter-text-input data-test-filter-user class='filter' value=user placeholder='User' onTextChange=(mut user)}}
-      {{filter-text-input data-test-filter-organizer class='filter' value=organization placeholder='Organization' onTextChange=(mut organization)}}
-    </div>
+      <div class='search-param-group-section-container'>
+        <h3 class='search-filter-section-header'>Narrow search too</h3>
+        {{filter-checkbox data-test-filter-name label='Name' onCheckedChanged=(action (mut inName))}}
+        {{filter-checkbox data-test-filter-desc label='Description' onCheckedChanged=(action (mut inDesc))}}
+        {{filter-checkbox data-test-filter-readme label='Readme' onCheckedChanged=(action (mut inReadme))}}
+      </div>
 
-    <div class='search-param-group-section-container'>
-      <h3 class='search-filter-section-header'>Repository Details</h3>
-      {{filter-text-input data-test-filter-repository-size class='filter' value=size placeholder='Repository Size' onTextChange=(mut size)}}
-      {{filter-text-input data-test-filter-forks class='filter' value=forks placeholder='Number of forks' onTextChange=(mut forks)}}
-      {{filter-text-input data-test-filter-stars class='filter' value=stars placeholder='Number of stars' onTextChange=(mut stars)}}
-      {{filter-dropdown data-test-filter-languages options=languageOptions optionGroups=languageOptionGroups onOptionSelected=(mut language) value=language}}
-    </div>
+      <div class='search-param-group-section-container'>
+        <h3 class='search-filter-section-header'>User/Organization details</h3>
+        {{filter-text-input data-test-filter-user class='filter' value=user placeholder='User' onTextChanged=(action (mut user))}}
+        {{filter-text-input data-test-filter-organizer class='filter' value=organization placeholder='Organization' onTextChanged=(action (mut organization))}}
+      </div>
 
-    <div class='search-param-group-section-container'>
-      <h3 class='search-filter-section-header'>Search by Topic</h3>
-      {{filter-text-input data-test-filter-topic class='filter' value=topic placeholder='Topic' onTextChange=(mut topic)}}
-    </div>
+      <div class='search-param-group-section-container'>
+        <h3 class='search-filter-section-header'>Repository Details</h3>
+        {{filter-text-input data-test-filter-repository-size class='filter' value=size placeholder='Repository Size' onTextChanged=(action (mut size))}}
+        {{filter-text-input data-test-filter-forks class='filter' value=forks placeholder='Number of forks' onTextChanged=(action (mut forks))}}
+        {{filter-text-input data-test-filter-stars class='filter' value=stars placeholder='Number of stars' onTextChanged=(action (mut stars))}}
+        {{filter-dropdown data-test-filter-languages options=languageOptions optionGroups=languageOptionGroups onOptionSelected=(action (mut language)) value=language}}
+      </div>
 
-    <button class='search-button' onclick={{action 'searchSelected'}}>Search</button>
+      <div class='search-param-group-section-container'>
+        <h3 class='search-filter-section-header'>Search by Topic</h3>
+        {{filter-text-input data-test-filter-topic class='filter' value=topic placeholder='Topic' onTextChanged=(action (mut topic))}}
+      </div>
+
+      <button data-test-search-button class='search-button' onclick={{action 'searchSelected'}}>Search</button>
+    {{/if}}
   </div>
-
   {{outlet}}
 </div>
